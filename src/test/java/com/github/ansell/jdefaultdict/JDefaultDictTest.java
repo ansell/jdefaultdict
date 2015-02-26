@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.IntStream;
 
 import org.junit.Test;
 
@@ -37,6 +38,7 @@ public class JDefaultDictTest {
 				k -> new ArrayList<>());
 		assertFalse(test.containsKey("test"));
 		List<String> testList = test.get("test");
+		assertTrue(test.containsKey("test"));
 		assertNotNull(testList);
 		assertTrue(testList.isEmpty());
 	}
@@ -47,6 +49,8 @@ public class JDefaultDictTest {
 				k1 -> new JDefaultDict<>(k2 -> new ArrayList<>()));
 		assertFalse(test.containsKey("test"));
 		List<String> testList = test.get("test").get("test");
+		assertTrue(test.containsKey("test"));
+		assertTrue(test.get("test").containsKey("test"));
 		assertNotNull(testList);
 		assertTrue(testList.isEmpty());
 	}
@@ -56,9 +60,23 @@ public class JDefaultDictTest {
 		ConcurrentMap<String, ConcurrentMap<String, AtomicInteger>> test = new JDefaultDict<>(
 				k1 -> new JDefaultDict<>(k2 -> new AtomicInteger(0)));
 		assertFalse(test.containsKey("test"));
-		for (int i = 1; i < 1000000; i++) {
+		for (int i = 1; i < 1000001; i++) {
 			int testValue = test.get("test").get("test").incrementAndGet();
 			assertEquals(i, testValue);
 		}
+		assertEquals(1000000, test.get("test").get("test").intValue());
 	}
+
+	@Test
+	public final void testGetChainedAtomicIntegerParallel() {
+		ConcurrentMap<String, ConcurrentMap<String, AtomicInteger>> test = new JDefaultDict<>(
+				k1 -> new JDefaultDict<>(k2 -> new AtomicInteger(0)));
+		assertFalse(test.containsKey("test"));
+		IntStream.range(1, 1000001).parallel().forEach(i -> {
+			int testValue = test.get("test").get("test").incrementAndGet();
+			assertTrue(testValue > 0);
+		});
+		assertEquals(1000000, test.get("test").get("test").intValue());
+	}
+
 }
