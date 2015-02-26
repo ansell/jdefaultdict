@@ -42,10 +42,14 @@ public class JDefaultDict<K, V> extends ConcurrentMapDelegate<K, V> {
 		this.lambdaFunction = lambdaFunction;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
+	 * Returns the value that exists for the given key if it exists, or creates
+	 * a new entry using the lambda function that was given to the constructor.
 	 * 
-	 * @see java.util.Map#get(java.lang.Object)
+	 * @param key
+	 *            The key object to search for, returning the value if it
+	 *            exists, or inserts a new value using the lambda function that
+	 *            was given to the constructor.
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
