@@ -40,7 +40,6 @@ defaultDict.get("myKey2").add("myValue2");
 Wrap multiple layers of JDefaultDict
 
 ```java
-ConcurrentMap<String, List<String>> unwrapped = new ConcurrentMap<>();
 ConcurrentMap<String, ConcurrentMap<String, List<String>>> defaultDict 
 		= new JDefaultDict<>(k1 -> new JDefaultDict(k2 -> new ArrayList<>()));
 defaultDict.get("myKey1").get("yourKey1").add("myValue1");
