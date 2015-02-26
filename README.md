@@ -74,6 +74,13 @@ ConcurrentMap<String, List<String>> defaultDict
 defaultDict.computeIfAbsent("test", new CopyOnWriteArrayList<>()).add("testValue");
 ```
 
+Thread-safe named counters
+```java
+ConcurrentMap<String, AtomicInteger> defaultDict 
+		= new JDefaultDict<>(k -> new AtomicInteger(0));
+defaultDict.get("counter").incrementAndGet();
+```
+
 Related
 =======
 
