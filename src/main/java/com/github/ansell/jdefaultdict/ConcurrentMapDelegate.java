@@ -50,7 +50,7 @@ public class ConcurrentMapDelegate<K, V> implements ConcurrentMap<K, V> {
 			synchronized (this) {
 				result = delegate;
 				if (result == null) {
-					result = delegate = initialMapFunction.get();
+					delegate = result = initialMapFunction.get();
 				}
 			}
 		}
