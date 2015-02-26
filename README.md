@@ -1,7 +1,10 @@
 jdefaultdict
 ============
 
-A Java version of the Python defaultdict pattern
+A Java version of the Python defaultdict pattern. 
+
+JDefaultDict redirects the ConcurrentMap.get(key) method to the ConcurrentMap.computeIfAbsent(key, mappingFunction)
+method, using the mapping function provided to the JDefaultDict constructor.
 
 USAGE
 =====
@@ -47,6 +50,7 @@ defaultDict.get("myKey2").get("yourKey2").add("myValue2");
 ```
 
 Lazily create the internal JDefaultDict as necessary, to avoid creating a map if it is never actually used
+
 ```java
 ConcurrentMap<String, List<String>> defaultDict 
 		= new JDefaultDict<>(k -> new ArrayList<>(), k -> new ConcurrentHashMap<>());
@@ -54,4 +58,12 @@ if(testValue) {
 	// Only if the code reaches here will the internal default dict map be created
 	defaultDict.get("test").add(testValue);
 }
+```
+
+Avoid using the given default and substitute another default temporarily
+
+```java
+ConcurrentMap<String, List<String>> defaultDict 
+		= new JDefaultDict<>(k -> new ArrayList<>(), k -> new ConcurrentHashMap<>());
+defaultDict.computeIfAbsent("test", new CopyOnWriteArrayList<>()).add("testValue");
 ```
