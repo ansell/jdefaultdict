@@ -1,12 +1,18 @@
-jdefaultdict
+JDefaultDict
 ============
 
-A Java version of the Python defaultdict pattern. 
+A Java-8 version of the Python defaultdict pattern. 
 
 JDefaultDict redirects the ConcurrentMap.get(key) method to the ConcurrentMap.computeIfAbsent(key, mappingFunction)
 method, using the mapping function provided to the JDefaultDict constructor.
 
-USAGE
+Requirements
+============
+
+* Java-8
+* Maven, or you can download the jar files from Maven Central manually
+
+Usage
 =====
 
 From Maven
@@ -68,7 +74,9 @@ ConcurrentMap<String, List<String>> defaultDict
 defaultDict.computeIfAbsent("test", new CopyOnWriteArrayList<>()).add("testValue");
 ```
 
-LICENSE
+License
 =======
 
-Public Domain, For more information, please refer to the LICENSE file and http://unlicense.org/
+Public Domain
+
+For more information, please refer to the LICENSE file and http://unlicense.org/
