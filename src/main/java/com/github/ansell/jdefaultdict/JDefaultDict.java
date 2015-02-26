@@ -31,6 +31,12 @@ public class JDefaultDict<K, V> extends ConcurrentMapDelegate<K, V> {
 	}
 
 	public JDefaultDict(Function<? super K, ? extends V> lambdaFunction,
+			ConcurrentMap<K, V> delegate) {
+		super(delegate);
+		this.lambdaFunction = lambdaFunction;
+	}
+
+	public JDefaultDict(Function<? super K, ? extends V> lambdaFunction,
 			Supplier<ConcurrentMap<K, V>> initialMapFunction) {
 		super(initialMapFunction);
 		this.lambdaFunction = lambdaFunction;
