@@ -1,7 +1,7 @@
 JDefaultDict
 ============
 
-A Java-8 version of the Python defaultdict pattern that lazily creates entries in a map when they are needed. 
+A Java-8 version of the Python [defaultdict](https://docs.python.org/2/library/collections.html#collections.defaultdict) pattern that lazily creates entries in a map when they are needed. 
 
 JDefaultDict redirects the ConcurrentMap.get(key) method to the ConcurrentMap.computeIfAbsent(key, mappingFunction)
 method, using the mapping function provided to the JDefaultDict constructor.
@@ -73,6 +73,11 @@ ConcurrentMap<String, List<String>> defaultDict
 		= new JDefaultDict<>(k -> new ArrayList<>(), k -> new ConcurrentHashMap<>());
 defaultDict.computeIfAbsent("test", new CopyOnWriteArrayList<>()).add("testValue");
 ```
+
+Related
+=======
+
+* Python [defaultdict](https://docs.python.org/2/library/collections.html#collections.defaultdict)
 
 License
 =======
