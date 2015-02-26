@@ -1,7 +1,7 @@
 JDefaultDict
 ============
 
-A Java-8 version of the Python defaultdict pattern. 
+A Java-8 version of the Python defaultdict pattern that lazily creates entries in a map when they are needed. 
 
 JDefaultDict redirects the ConcurrentMap.get(key) method to the ConcurrentMap.computeIfAbsent(key, mappingFunction)
 method, using the mapping function provided to the JDefaultDict constructor.
