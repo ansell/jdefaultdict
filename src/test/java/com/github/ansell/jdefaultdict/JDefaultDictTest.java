@@ -40,4 +40,13 @@ public class JDefaultDictTest {
 		assertTrue(testList.isEmpty());
 	}
 
+	@Test
+	public final void testGetChained() {
+		ConcurrentMap<String, ConcurrentMap<String, List<String>>> test = new JDefaultDict<>(
+				k1 -> new JDefaultDict<>(k2 -> new ArrayList<>()));
+		assertFalse(test.containsKey("test"));
+		List<String> testList = test.get("test").get("test");
+		assertNotNull(testList);
+		assertTrue(testList.isEmpty());
+	}
 }
