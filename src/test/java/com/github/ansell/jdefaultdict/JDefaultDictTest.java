@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.Test;
 
@@ -48,5 +49,16 @@ public class JDefaultDictTest {
 		List<String> testList = test.get("test").get("test");
 		assertNotNull(testList);
 		assertTrue(testList.isEmpty());
+	}
+
+	@Test
+	public final void testGetChainedAtomicIntegerSerial() {
+		ConcurrentMap<String, ConcurrentMap<String, AtomicInteger>> test = new JDefaultDict<>(
+				k1 -> new JDefaultDict<>(k2 -> new AtomicInteger(0)));
+		assertFalse(test.containsKey("test"));
+		for (int i = 1; i < 1000000; i++) {
+			int testValue = test.get("test").get("test").incrementAndGet();
+			assertEquals(i, testValue);
+		}
 	}
 }
