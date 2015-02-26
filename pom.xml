@@ -10,7 +10,7 @@
 
 	<groupId>com.github.ansell.jdefaultdict</groupId>
 	<artifactId>jdefaultdict</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>JDefaultDict</name>
 	<description>A Java version of the Python defaultdict pattern.</description>
 	<url>https://github.com/ansell/jdefaultdict</url>
