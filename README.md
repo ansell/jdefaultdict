@@ -67,3 +67,8 @@ ConcurrentMap<String, List<String>> defaultDict
 		= new JDefaultDict<>(k -> new ArrayList<>(), k -> new ConcurrentHashMap<>());
 defaultDict.computeIfAbsent("test", new CopyOnWriteArrayList<>()).add("testValue");
 ```
+
+LICENSE
+=======
+
+Public Domain, For more information, please refer to the LICENSE file and http://unlicense.org/
