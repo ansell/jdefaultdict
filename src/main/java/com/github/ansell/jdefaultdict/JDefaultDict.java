@@ -11,9 +11,10 @@ import java.util.function.Supplier;
 /**
  * An implementation of the Python defaultdict pattern using Java.
  * 
- * All calls to get are transparently mapped to computeIfAbsent, using the
- * lambda function provided in the constructor to create objects if they do not
- * exist.
+ * All calls to {@link #get(Object)} are transparently mapped to
+ * {@link #computeIfAbsent(Object, Function)}, using the lambda function
+ * provided in the {@link JDefaultDict} constructors to create default values if
+ * the key does not exist.
  * 
  * @author Peter Ansell p_ansell@yahoo.com
  * 
