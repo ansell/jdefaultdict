@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -26,6 +27,18 @@ public class JDefaultDictTest {
 				k -> new ArrayList<>());
 		assertFalse(test.containsKey("test"));
 		test.put("test", new ArrayList<>());
+		assertTrue(test.containsKey("test"));
+		List<String> testList = test.get("test");
+		assertNotNull(testList);
+		assertTrue(testList.isEmpty());
+	}
+
+	@Test
+	public final void testGetExistsInDelegate() {
+		ConcurrentMap<String, List<String>> delegate = new ConcurrentHashMap<>();
+		delegate.put("test", new ArrayList<>());
+		ConcurrentMap<String, List<String>> test = new JDefaultDict<>(
+				k -> new ArrayList<>(), delegate);
 		assertTrue(test.containsKey("test"));
 		List<String> testList = test.get("test");
 		assertNotNull(testList);
@@ -77,6 +90,18 @@ public class JDefaultDictTest {
 			assertTrue(testValue > 0);
 		});
 		assertEquals(1000000, test.get("test").get("test").intValue());
+	}
+
+	@Test
+	public final void testGetLateBindingBackingMap() {
+		ConcurrentMap<String, List<String>> test = new JDefaultDict<>(
+				k -> new ArrayList<>(), () -> new ConcurrentHashMap<>());
+		assertFalse(test.containsKey("test"));
+		test.put("test", new ArrayList<>());
+		assertTrue(test.containsKey("test"));
+		List<String> testList = test.get("test");
+		assertNotNull(testList);
+		assertTrue(testList.isEmpty());
 	}
 
 }
