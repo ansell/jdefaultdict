@@ -7,6 +7,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
@@ -21,16 +22,6 @@ import org.junit.Test;
  * @author Peter Ansell p_ansell@yahoo.com
  */
 public class ConcurrentMapDelegateTest {
-
-	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#hashCode()}.
-	 */
-	@Ignore("TODO: Implement me")
-	@Test
-	public final void testHashCode() throws Exception {
-		fail("Not yet implemented"); // TODO
-	}
 
 	/**
 	 * Test method for
@@ -233,8 +224,10 @@ public class ConcurrentMapDelegateTest {
 				() -> new ConcurrentHashMap<>());
 		// Two empty maps should be equals
 		assertTrue(test1.equals(test2));
+		assertEquals(test1.hashCode(), test2.hashCode());
 		test1.put("test1", "original");
 		assertFalse(test1.equals(test2));
+		assertNotEquals(test1.hashCode(), test2.hashCode());
 	}
 
 	/**
@@ -255,6 +248,8 @@ public class ConcurrentMapDelegateTest {
 		assertTrue(test1.equals(test2));
 		assertTrue(test1.containsKey("test1"));
 		assertTrue(test2.containsKey("test1"));
+		assertEquals(test1.hashCode(), test2.hashCode());
+		assertEquals(test1.hashCode(), delegate.hashCode());
 	}
 
 	/**
@@ -298,7 +293,7 @@ public class ConcurrentMapDelegateTest {
 	public final void testGet() throws Exception {
 		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
-		
+
 		assertNull(test1.get("test1"));
 		test1.put("test1", "original");
 		assertEquals("original", test1.get("test1"));
@@ -313,7 +308,7 @@ public class ConcurrentMapDelegateTest {
 	public final void testGetOrDefault() throws Exception {
 		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
-		
+
 		assertNull(test1.get("test1"));
 		assertEquals("dummy", test1.getOrDefault("test1", "dummy"));
 		test1.put("test1", "original");
@@ -354,10 +349,20 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#merge(java.lang.Object, java.lang.Object, java.util.function.BiFunction)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testMerge() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		
+		test1.merge("test", "original", (k, v) -> "bogus");
+		assertTrue(test1.containsKey("test"));
+		assertTrue(test1.containsValue("original"));
+		assertFalse(test1.containsValue("bogus"));
+		test1.merge("test", "corrected", (a, b) -> a + "-after-" + b);
+		assertTrue(test1.containsKey("test"));
+		assertFalse(test1.containsValue("original"));
+		assertFalse(test1.containsValue("bogus"));
+		assertTrue(test1.containsValue("original-after-corrected"));
 	}
 
 	/**
@@ -365,10 +370,16 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#put(java.lang.Object, java.lang.Object)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testPut() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.values().isEmpty());
+		test1.put("test", "original");
+		assertFalse(test1.values().isEmpty());
+		assertTrue(test1.values().contains("original"));
+		assertFalse(test1.keySet().isEmpty());
+		assertTrue(test1.keySet().contains("test"));
 	}
 
 	/**
@@ -376,10 +387,16 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#putAll(java.util.Map)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testPutAll() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+		test1.putAll(Collections.singletonMap("test", "next"));
+		assertFalse(test1.values().isEmpty());
+		assertTrue(test1.values().contains("next"));
+		assertFalse(test1.keySet().isEmpty());
+		assertTrue(test1.keySet().contains("test"));
 	}
 
 	/**
@@ -387,10 +404,26 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#putIfAbsent(java.lang.Object, java.lang.Object)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testPutIfAbsent() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+
+		String putIfAbsent = test1.putIfAbsent("test", "original");
+		assertNull(putIfAbsent);
+		assertFalse(test1.values().isEmpty());
+		assertTrue(test1.values().contains("original"));
+		assertFalse(test1.keySet().isEmpty());
+		assertTrue(test1.keySet().contains("test"));
+
+		String putIfAbsent2 = test1.putIfAbsent("test", "next");
+		assertEquals("original", putIfAbsent2);
+		assertFalse(test1.values().isEmpty());
+		assertTrue(test1.values().contains("original"));
+		assertFalse(test1.values().contains("next"));
+		assertFalse(test1.keySet().isEmpty());
+		assertTrue(test1.keySet().contains("test"));
 	}
 
 	/**
@@ -398,10 +431,15 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#remove(java.lang.Object)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testRemoveObject() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+		assertNull(test1.remove("test"));
+
+		test1.put("test", "original");
+		assertEquals("original", test1.remove("test"));
 	}
 
 	/**
@@ -409,10 +447,16 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#remove(java.lang.Object, java.lang.Object)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testRemoveObjectObject() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+		assertNull(test1.remove("test"));
+
+		test1.put("test", "original");
+		assertFalse(test1.remove("test", "dummy"));
+		assertTrue(test1.remove("test", "original"));
 	}
 
 	/**
@@ -420,10 +464,18 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#replace(java.lang.Object, java.lang.Object)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testReplaceKV() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+		assertNull(test1.replace("test", "bogus"));
+
+		test1.put("test", "original");
+		assertTrue(test1.containsValue("original"));
+		assertEquals("original", test1.replace("test", "dummy"));
+		assertFalse(test1.containsValue("original"));
+		assertTrue(test1.containsValue("dummy"));
 	}
 
 	/**
@@ -431,10 +483,34 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#replace(java.lang.Object, java.lang.Object, java.lang.Object)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testReplaceKVV() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+		assertFalse(test1.replace("test", "dummy", "bogus"));
+		assertFalse(test1.containsKey("test"));
+		assertFalse(test1.containsValue("dummy"));
+		assertFalse(test1.containsValue("bogus"));
+
+		test1.put("test", "original");
+		assertTrue(test1.containsKey("test"));
+		assertTrue(test1.containsValue("original"));
+		assertFalse(test1.containsValue("dummy"));
+		assertFalse(test1.containsValue("bogus"));
+
+		assertFalse(test1.replace("test", "dummy", "bogus2"));
+		assertTrue(test1.containsKey("test"));
+		assertTrue(test1.containsValue("original"));
+		assertFalse(test1.containsValue("dummy"));
+		assertFalse(test1.containsValue("bogus"));
+
+		assertTrue(test1.replace("test", "original", "corrected"));
+		assertTrue(test1.containsKey("test"));
+		assertFalse(test1.containsValue("original"));
+		assertFalse(test1.containsValue("dummy"));
+		assertFalse(test1.containsValue("bogus"));
+		assertTrue(test1.containsValue("corrected"));
 	}
 
 	/**
@@ -442,40 +518,60 @@ public class ConcurrentMapDelegateTest {
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#replaceAll(java.util.function.BiFunction)}
 	 * .
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testReplaceAll() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.isEmpty());
+		test1.replaceAll((k, v) -> {
+			throw new RuntimeException("Should not happen");
+		});
+
+		test1.put("test", "original");
+		assertTrue(test1.containsKey("test"));
+		assertTrue(test1.containsValue("original"));
+		
+		test1.replaceAll((k, v) -> "corrected");
+		assertTrue(test1.containsKey("test"));
+		assertFalse(test1.containsValue("original"));
+		assertTrue(test1.containsValue("corrected"));
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#size()}.
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testSize() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertEquals(0, test1.size());
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#toString()}.
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testToString() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertNotNull(test1.toString());
+		assertFalse(test1.toString().isEmpty());
 	}
 
 	/**
 	 * Test method for
 	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#values()}.
 	 */
-	@Ignore("TODO: Implement me")
 	@Test
 	public final void testValues() throws Exception {
-		fail("Not yet implemented"); // TODO
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
+				() -> new ConcurrentHashMap<>());
+		assertTrue(test1.values().isEmpty());
+		test1.put("test", "original");
+		assertFalse(test1.values().isEmpty());
+		assertTrue(test1.values().contains("original"));
 	}
 
 }
