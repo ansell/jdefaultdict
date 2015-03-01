@@ -6,6 +6,8 @@ A Java-8 version of the Python [defaultdict](https://docs.python.org/2/library/c
 JDefaultDict redirects the ConcurrentMap.get(key) method to the ConcurrentMap.computeIfAbsent(key, mappingFunction)
 method, using the mapping function provided to the JDefaultDict constructor.
 
+[![Build Status](https://travis-ci.org/ansell/jdefaultdict.svg?branch=master)](https://travis-ci.org/ansell/jdefaultdict) [![Coverage Status](https://coveralls.io/repos/ansell/jdefaultdict/badge.svg?branch=master)](https://coveralls.io/r/ansell/jdefaultdict?branch=master)
+
 Requirements
 ============
 
