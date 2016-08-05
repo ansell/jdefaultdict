@@ -1,4 +1,27 @@
-/**
+/*
+ * This is free and unencumbered software released into the public domain.
+ *
+ * Anyone is free to copy, modify, publish, use, compile, sell, or
+ * distribute this software, either in source code form or as a compiled
+ * binary, for any purpose, commercial or non-commercial, and by any
+ * means.
+ * In jurisdictions that recognize copyright laws, the author or authors
+ * of this software dedicate any and all copyright interest in the
+ * software to the public domain. We make this dedication for the benefit
+ * of the public at large and to the detriment of our heirs and
+ * successors. We intend this dedication to be an overt act of
+ * relinquishment in perpetuity of all present and future rights to this
+ * software under copyright law.
+ * 
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR
+ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+ * OTHER DEALINGS IN THE SOFTWARE.
+ * 
+ * For more information, please refer to <http://unlicense.org>
  * 
  */
 package com.github.ansell.jdefaultdict;
@@ -30,11 +53,11 @@ public class ConcurrentMapDelegateTest {
 	 */
 	@Test
 	public final void testConcurrentMapDelegateConcurrentMapOfKV()
-			throws Exception {
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> delegate = new ConcurrentHashMap<>();
 		delegate.put("test1", new ArrayList<>());
-		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
-				delegate);
+		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(delegate);
 		assertTrue(test.containsKey("test1"));
 	}
 
@@ -45,7 +68,8 @@ public class ConcurrentMapDelegateTest {
 	 */
 	@Test
 	public final void testConcurrentMapDelegateSupplierOfConcurrentMapOfKV()
-			throws Exception {
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
@@ -55,11 +79,12 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#clear()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#clear()}.
 	 */
 	@Test
-	public final void testClear() throws Exception {
+	public final void testClear()
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
@@ -76,7 +101,9 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testCompute() throws Exception {
+	public final void testCompute()
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
@@ -103,7 +130,9 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testComputeIfAbsent() throws Exception {
+	public final void testComputeIfAbsent()
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
@@ -130,7 +159,9 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testComputeIfPresent() throws Exception {
+	public final void testComputeIfPresent()
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
@@ -153,11 +184,12 @@ public class ConcurrentMapDelegateTest {
 
 	/**
 	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#containsKey(java.lang.Object)}
-	 * .
+	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#containsKey(java.lang.Object)} .
 	 */
 	@Test
-	public final void testContainsKey() throws Exception {
+	public final void testContainsKey()
+		throws Exception
+	{
 		ConcurrentMap<String, List<String>> test = new ConcurrentMapDelegate<>(
 				() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
@@ -171,13 +203,13 @@ public class ConcurrentMapDelegateTest {
 
 	/**
 	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#containsValue(java.lang.Object)}
-	 * .
+	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#containsValue(java.lang.Object)} .
 	 */
 	@Test
-	public final void testContainsValue() throws Exception {
-		ConcurrentMap<String, String> test = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testContainsValue()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
 		assertEquals(0, test.size());
 		assertFalse(test.containsKey("test1"));
@@ -190,13 +222,13 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#entrySet()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#entrySet()}.
 	 */
 	@Test
-	public final void testEntrySet() throws Exception {
-		ConcurrentMap<String, String> test = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testEntrySet()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test.isEmpty());
 		assertEquals(0, test.size());
 		assertEquals(0, test.entrySet().size());
@@ -212,16 +244,14 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#equals(java.lang.Object)}
-	 * .
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#equals(java.lang.Object)} .
 	 */
 	@Test
-	public final void testEqualsObjectLateBinding() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
-		ConcurrentMap<String, String> test2 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testEqualsObjectLateBinding()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
+		ConcurrentMap<String, String> test2 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		// Two empty maps should be equals
 		assertTrue(test1.equals(test2));
 		assertEquals(test1.hashCode(), test2.hashCode());
@@ -231,17 +261,15 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#equals(java.lang.Object)}
-	 * .
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#equals(java.lang.Object)} .
 	 */
 	@Test
-	public final void testEqualsObjectSameDelegate() throws Exception {
+	public final void testEqualsObjectSameDelegate()
+		throws Exception
+	{
 		ConcurrentMap<String, String> delegate = new ConcurrentHashMap<>();
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				delegate);
-		ConcurrentMap<String, String> test2 = new ConcurrentMapDelegate<>(
-				delegate);
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(delegate);
+		ConcurrentMap<String, String> test2 = new ConcurrentMapDelegate<>(delegate);
 		assertTrue(test1.equals(test2));
 		test1.put("test1", "original");
 		// Same backing map, so both should behave the same way
@@ -254,15 +282,15 @@ public class ConcurrentMapDelegateTest {
 
 	/**
 	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#forEach(java.util.function.BiConsumer)}
-	 * .
+	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#forEach(java.util.function.BiConsumer)} .
 	 */
 	@Test
-	public final void testForEach() throws Exception {
+	public final void testForEach()
+		throws Exception
+	{
 		List<String> resultKeys = new ArrayList<>();
 		List<String> resultValues = new ArrayList<>();
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		test1.forEach((k, v) -> resultKeys.add(k));
 		test1.forEach((k, v) -> resultValues.add(v));
 		assertTrue(test1.isEmpty());
@@ -285,14 +313,13 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#get(java.lang.Object)}
-	 * .
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#get(java.lang.Object)} .
 	 */
 	@Test
-	public final void testGet() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testGet()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 
 		assertNull(test1.get("test1"));
 		test1.put("test1", "original");
@@ -305,9 +332,10 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testGetOrDefault() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testGetOrDefault()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 
 		assertNull(test1.get("test1"));
 		assertEquals("dummy", test1.getOrDefault("test1", "dummy"));
@@ -317,26 +345,26 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#isEmpty()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#isEmpty()}.
 	 */
 	@Test
-	public final void testIsEmpty() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testIsEmpty()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		test1.put("test1", "original");
 		assertFalse(test1.isEmpty());
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#keySet()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#keySet()}.
 	 */
 	@Test
-	public final void testKeySet() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testKeySet()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.keySet().isEmpty());
 		test1.put("test1", "original");
 		assertFalse(test1.keySet().isEmpty());
@@ -350,10 +378,11 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testMerge() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
-		
+	public final void testMerge()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
+
 		test1.merge("test", "original", (k, v) -> "bogus");
 		assertTrue(test1.containsKey("test"));
 		assertTrue(test1.containsValue("original"));
@@ -367,13 +396,13 @@ public class ConcurrentMapDelegateTest {
 
 	/**
 	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#put(java.lang.Object, java.lang.Object)}
-	 * .
+	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#put(java.lang.Object, java.lang.Object)} .
 	 */
 	@Test
-	public final void testPut() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testPut()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.values().isEmpty());
 		test1.put("test", "original");
 		assertFalse(test1.values().isEmpty());
@@ -383,14 +412,13 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#putAll(java.util.Map)}
-	 * .
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#putAll(java.util.Map)} .
 	 */
 	@Test
-	public final void testPutAll() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testPutAll()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		test1.putAll(Collections.singletonMap("test", "next"));
 		assertFalse(test1.values().isEmpty());
@@ -405,9 +433,10 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testPutIfAbsent() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testPutIfAbsent()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 
 		String putIfAbsent = test1.putIfAbsent("test", "original");
@@ -427,14 +456,13 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#remove(java.lang.Object)}
-	 * .
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#remove(java.lang.Object)} .
 	 */
 	@Test
-	public final void testRemoveObject() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testRemoveObject()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		assertNull(test1.remove("test"));
 
@@ -448,9 +476,10 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testRemoveObjectObject() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testRemoveObjectObject()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		assertNull(test1.remove("test"));
 
@@ -465,9 +494,10 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testReplaceKV() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testReplaceKV()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		assertNull(test1.replace("test", "bogus"));
 
@@ -484,9 +514,10 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testReplaceKVV() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testReplaceKVV()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		assertFalse(test1.replace("test", "dummy", "bogus"));
 		assertFalse(test1.containsKey("test"));
@@ -519,9 +550,10 @@ public class ConcurrentMapDelegateTest {
 	 * .
 	 */
 	@Test
-	public final void testReplaceAll() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testReplaceAll()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		test1.replaceAll((k, v) -> {
 			throw new RuntimeException("Should not happen");
@@ -530,7 +562,7 @@ public class ConcurrentMapDelegateTest {
 		test1.put("test", "original");
 		assertTrue(test1.containsKey("test"));
 		assertTrue(test1.containsValue("original"));
-		
+
 		test1.replaceAll((k, v) -> "corrected");
 		assertTrue(test1.containsKey("test"));
 		assertFalse(test1.containsValue("original"));
@@ -538,36 +570,36 @@ public class ConcurrentMapDelegateTest {
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#size()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#size()}.
 	 */
 	@Test
-	public final void testSize() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testSize()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertEquals(0, test1.size());
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#toString()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#toString()}.
 	 */
 	@Test
-	public final void testToString() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testToString()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertNotNull(test1.toString());
 		assertFalse(test1.toString().isEmpty());
 	}
 
 	/**
-	 * Test method for
-	 * {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#values()}.
+	 * Test method for {@link com.github.ansell.jdefaultdict.ConcurrentMapDelegate#values()}.
 	 */
 	@Test
-	public final void testValues() throws Exception {
-		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(
-				() -> new ConcurrentHashMap<>());
+	public final void testValues()
+		throws Exception
+	{
+		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.values().isEmpty());
 		test1.put("test", "original");
 		assertFalse(test1.values().isEmpty());
