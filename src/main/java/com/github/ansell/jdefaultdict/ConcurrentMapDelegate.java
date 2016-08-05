@@ -55,6 +55,11 @@ public class ConcurrentMapDelegate<K, V> implements ConcurrentMap<K, V> {
 	 */
 	private volatile ConcurrentMap<K, V> delegate;
 
+	/**
+	 * If the delegate map is specified when this class is instantiated, this must be null, otherwise it must
+	 * a lambda that lazily supplies an instance of ConcurrentMap to use as the backing map for this instance
+	 * when accesses to the map occur. If there are no accesses to the map, this function may never be called.
+	 */
 	private final Supplier<ConcurrentMap<K, V>> initialMapFunction;
 
 	/**
