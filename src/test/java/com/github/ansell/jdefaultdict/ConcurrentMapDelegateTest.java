@@ -36,7 +36,6 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -556,14 +555,17 @@ public class ConcurrentMapDelegateTest {
 		ConcurrentMap<String, String> test1 = new ConcurrentMapDelegate<>(() -> new ConcurrentHashMap<>());
 		assertTrue(test1.isEmpty());
 		test1.replaceAll((k, v) -> {
-			throw new RuntimeException("Should not happen");
+			return "fail";
 		});
+		assertTrue(test1.isEmpty());
 
 		test1.put("test", "original");
+		assertEquals(1, test1.size());
 		assertTrue(test1.containsKey("test"));
 		assertTrue(test1.containsValue("original"));
 
 		test1.replaceAll((k, v) -> "corrected");
+		assertEquals(1, test1.size());
 		assertTrue(test1.containsKey("test"));
 		assertFalse(test1.containsValue("original"));
 		assertTrue(test1.containsValue("corrected"));
