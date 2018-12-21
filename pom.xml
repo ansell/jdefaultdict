@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.github.ansell</groupId>
 		<artifactId>parentpom</artifactId>
-		<version>4</version>
+		<version>11</version>
 	</parent>
 
 	<groupId>com.github.ansell.jdefaultdict</groupId>
